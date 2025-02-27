@@ -8,9 +8,21 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bgColor: "#151515",
+        YellowColor: "#FFA500",
       },
     },
   },
