@@ -1,6 +1,8 @@
 import QnaUi from "./QnaUi";
-import QnaButton from "./QnaButton";
+
 import QnaForm from "./QnaForm";
+import QnaEditButton from "./QnaEditButton";
+import QnaToggleButton from "./QnaToggleButton";
 
 export default function QnaBox({
   data,
@@ -20,20 +22,25 @@ export default function QnaBox({
             <li key={item.id} className="w-full  py-4">
               <div className="flex items-center justify-between w-full">
                 <h1 className="text-2xl text-YellowColor">{item.question}</h1>
-                <QnaButton answerId={item.id} />
+                <QnaToggleButton answerId={item.id} />
               </div>
 
               <div
                 id={`answer-${item.id}`}
-                className="overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out"
+                className="overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out "
               >
-                <p className="text-gray-100 mt-2">{item.answer}</p>
+                <p className="text-gray-100 mt-2 flex items-center justify-between">
+                  {item.answer}
+                  <span>
+                    <QnaEditButton id={item.id} />
+                  </span>
+                </p>
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <QnaForm category={category} />
+      <QnaForm category={category} data={data} />
     </div>
   );
 }

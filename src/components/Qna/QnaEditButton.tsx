@@ -1,8 +1,34 @@
 "use client";
 
-export default function QnaToggleButton({ answerId }: { answerId: string }) {
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+export default function QnaEditButton({ id }: { id: string }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEdit = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (isEditing) {
+      params.delete("edit");
+      params.delete("id");
+    } else {
+      params.set("edit", "1");
+      params.set("id", id);
+    }
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  useEffect(() => {
+    setIsEditing(searchParams.get("edit") === "1");
+  }, [searchParams]);
+
   return (
-    <button className="text-zinc-500 hover:text-gray-100 duration-200">
+    <button
+      className="text-zinc-500 hover:text-gray-100 duration-200"
+      onClick={handleEdit}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

@@ -6,6 +6,9 @@ import CategoryUi from "@/components/Ui/CategoryUi";
 export const metadata: Metadata = {
   title: "QnA",
   description: "Hi",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 const inter = Inter({

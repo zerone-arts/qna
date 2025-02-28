@@ -6,18 +6,12 @@ export default function QnaToggleButton({ answerId }: { answerId: string }) {
     const buttonElement = document.getElementById(`toggle-${answerId}`);
 
     if (answerElement) {
-      // 현재 maxHeight 값이 "0px"이면 열기, 그렇지 않으면 닫기
       const isClosed =
         answerElement.style.maxHeight === "0px" ||
         !answerElement.style.maxHeight;
       answerElement.style.maxHeight = isClosed
         ? `${answerElement.scrollHeight}px`
         : "0px";
-
-      console.log(
-        `Answer ${answerId} maxHeight:`,
-        answerElement.style.maxHeight
-      );
     }
 
     if (buttonElement) {

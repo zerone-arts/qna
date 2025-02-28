@@ -11,7 +11,7 @@ export async function saveData(
       question,
       answer,
       category,
-      created_at: new Date().toISOString(), // 현재 시간 저장
+      created_at: new Date().toISOString(),
     },
   ]);
 
