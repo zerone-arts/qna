@@ -1,22 +1,23 @@
 import QnaBox from "@/components/Qna/QnaBox";
 import { getData } from "@/lib/api";
+import { headers } from "next/headers";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { query?: string };
-}) {
+export default async function Page() {
   const data = await getData();
-  const searchTerm = searchParams.query || "";
+
+  const headersList = await headers();
+  const encodedSearchTerm = headersList.get("x-query") || "";
+  const searchTerm = decodeURIComponent(encodedSearchTerm); // 디코딩 처리
+
   const category = "Algorithm";
 
-  const algorithmData = data.filter((item: any) => item.category === category);
+  const frontendData = data.filter((item: any) => item.category === category);
 
-  const filteredData = algorithmData.filter((item: any) =>
+  const filteredData = frontendData.filter((item: any) =>
     item.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const finalData = filteredData.length > 0 ? filteredData : algorithmData;
+  const finalData = filteredData.length > 0 ? filteredData : frontendData;
 
   return (
     <div className="flex items-center justify-center min-h-screen">

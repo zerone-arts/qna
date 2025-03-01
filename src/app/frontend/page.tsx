@@ -1,13 +1,14 @@
 import QnaBox from "@/components/Qna/QnaBox";
 import { getData } from "@/lib/api";
+import { headers } from "next/headers";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { query?: string };
-}) {
+export default async function Page() {
   const data = await getData();
-  const searchTerm = searchParams.query ?? "";
+
+  const headersList = await headers();
+  const encodedSearchTerm = headersList.get("x-query") || "";
+  const searchTerm = decodeURIComponent(encodedSearchTerm); // 디코딩 처리
+
   const category = "Frontend";
 
   const frontendData = data.filter((item: any) => item.category === category);
