@@ -29,7 +29,7 @@ export default function QnaBox({
                 id={`answer-${item.id}`}
                 className="overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out "
               >
-                <p className="text-gray-100 mt-2 flex items-center justify-between break-keep">
+                <p className="text-zinc-400 mt-2 flex justify-between break-keep leading-5">
                   {item.answer}
                   <span>
                     <QnaEditButton id={item.id} />

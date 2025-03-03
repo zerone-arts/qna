@@ -3,7 +3,7 @@
 import { saveData } from "@/app/action";
 import { DeleteData, updateData } from "@/lib/api";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function QnaForm({
   category,
@@ -17,11 +17,16 @@ export default function QnaForm({
   const [answer, setAnswer] = useState("");
   const [isDelete, setIsDelete] = useState(false);
   const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [prevQuestion, setPrevQuestion] = useState("");
+  const [prevAnswer, setPrevAnswer] = useState("");
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const [editId, setEditId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  const questionRef = useRef(question);
+  const answerRef = useRef(answer);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +90,14 @@ export default function QnaForm({
     setAnswer("");
   };
 
+  const prevHandle = (e: any) => {
+    e.preventDefault();
+    setQuestion(prevQuestion);
+    setAnswer(prevAnswer);
+    setPrevQuestion("");
+    setPrevAnswer("");
+  };
+
   useEffect(() => {
     if (isEditing && editId) {
       setToggle(true);
@@ -110,12 +123,20 @@ export default function QnaForm({
   }, [searchParams]);
 
   useEffect(() => {
+    questionRef.current = question;
+    answerRef.current = answer;
+  }, [question, answer]);
+
+  useEffect(() => {
     if (!toggle) return;
 
     const handleClickOutside = (e: MouseEvent) => {
       if (isDelete) return;
       const formElement = document.getElementById("qna-form");
       if (formElement && !formElement.contains(e.target as Node)) {
+        setPrevQuestion(questionRef.current);
+        setPrevAnswer(answerRef.current);
+        console.log(questionRef.current, answerRef.current);
         closeHandle();
       }
     };
@@ -130,7 +151,7 @@ export default function QnaForm({
     `}
     >
       <div
-        className={`absolute bottom-[50px] hover:text-YellowColor cursor-pointer border  flex items-center justify-start flex-col   bg-bgColor rounded-3xl  left-1/2 transform -translate-x-1/2 pointer-events-auto  overflow-hidden ${
+        className={`absolute bottom-[20px] hover:text-YellowColor cursor-pointer border  flex items-center justify-start flex-col   bg-bgColor rounded-3xl  left-1/2 transform -translate-x-1/2 pointer-events-auto  overflow-hidden ${
           toggle
             ? "w-2/3 border-YellowColor h-[300px] "
             : "w-[150px] border-white h-[50px]"
@@ -215,6 +236,14 @@ export default function QnaForm({
           >
             {isEditing && editId ? "Update" : "Save"}
           </button>
+          {prevQuestion || prevAnswer ? (
+            <button
+              className="absolute bottom-[35px] left-5 border rounded-xl px-3  text-gray-100 text-sm hover:text-YellowColor hover:border-YellowColor duration-300"
+              onClick={prevHandle}
+            >
+              Prev
+            </button>
+          ) : null}
         </form>
       </div>
       <div
