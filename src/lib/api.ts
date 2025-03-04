@@ -14,10 +14,15 @@ export async function getData() {
   return data;
 }
 
-export async function updateData(id: string, question: string, answer: string) {
+export async function updateData(
+  id: string,
+  question: string,
+  answer: string,
+  importance: number
+) {
   const { data, error } = await supabase
     .from("qnaTable")
-    .update({ question, answer })
+    .update({ question, answer, importance })
     .eq("id", id)
     .select(); // 업데이트된 데이터 반환
 

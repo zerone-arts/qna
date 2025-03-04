@@ -20,6 +20,9 @@ export default function QnaBox({
         <ul className="w-full">
           {data.map((item: any) => (
             <li key={item.id} className="w-full  py-4">
+              <div className="text-[10px] text-white">
+                {"★".repeat(item.importance)}
+              </div>
               <div className="flex items-center justify-between w-full">
                 <h1 className="text-2xl text-YellowColor">{item.question}</h1>
                 <QnaToggleButton answerId={item.id} />

@@ -126,3 +126,23 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+::-webkit-scrollbar {
+  width: 8px; /* 스크롤바 너비 */
+  height: 2px; /* 가로 스크롤바 높이 */
+}
+
+::-webkit-scrollbar-track {
+  background: #151515; /* 스크롤바 트랙 색상 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffa500; /* 스크롤바 색상 (Tailwind의 yellow-400) */
+  border-radius: 10px;
+  border: 2px solid #1e1e1e; /* 트랙과의 간격 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eab308; /* 마우스 오버 시 색상 변경 (yellow-500) */
+}

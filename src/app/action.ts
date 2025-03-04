@@ -4,13 +4,15 @@ import { revalidatePath } from "next/cache";
 export async function saveData(
   question: string,
   answer: string,
-  category: string
+  category: string,
+  importance: number
 ) {
   const { data, error } = await supabase.from("qnaTable").insert([
     {
       question,
       answer,
       category,
+      importance,
       created_at: new Date().toISOString(),
     },
   ]);

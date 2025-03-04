@@ -4,10 +4,11 @@ import { headers } from "next/headers";
 
 export default async function Page() {
   const data = await getData();
-
   const headersList = await headers();
+
   const encodedSearchTerm = headersList.get("x-query") || "";
-  const searchTerm = decodeURIComponent(encodedSearchTerm); // 디코딩 처리
+  const searchTerm = decodeURIComponent(encodedSearchTerm);
+  const sortOrder = headersList.get("x-sort");
 
   const category = "Frontend";
 
@@ -17,7 +18,15 @@ export default async function Page() {
     item.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const finalData = filteredData.length > 0 ? filteredData : frontendData;
+  let finalData = filteredData.length > 0 ? filteredData : frontendData;
+
+  if (sortOrder) {
+    finalData = [...finalData].sort((a, b) =>
+      sortOrder === "ascending"
+        ? a.importance - b.importance
+        : b.importance - a.importance
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
